@@ -9,13 +9,18 @@ headers = {"User-Agent":
 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'
 }
 
-page = requests.get(URL, headers=headers)
+def check_price()
+  page = requests.get(URL, headers=headers)
+  soup = BeautifulSoup(page.content, 'html.parser')
 
-soup = BeautifulSoup(page.content, 'html.parser')
+  title = soup.find(id="title").get_text()
+  price = soup.find(id="priceblock_ourprice").get_text()
+  converted_price = float(price[1:4])
 
-title = soup.find(id="title").get_text()
-price = soup.find(id="priceblock_ourprice").get_text()
-converted_price = float(price[1:4])
+  if(converted_price < 300)
+    send_mail()
 
-print(title.strip())
-print(converted_price)
+  print(title.strip())
+  print(converted_price)
+
+def send_mail()  
